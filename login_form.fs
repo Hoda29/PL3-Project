@@ -37,6 +37,8 @@ let login username password =
     else
         None
 
+let ResetText (textbox: System.Windows.Forms.TextBox) =
+    textbox.Text <- ""
 
 let loginForm () =
     let form = new Form(Text = "Login", Width = 400, Height = 250, StartPosition = FormStartPosition.CenterScreen, BackColor = Color.LightBlue)
@@ -50,24 +52,22 @@ let loginForm () =
 
     let btnLogin = new Button(Text = "Login", Top = 150, Left = 100, Width = 200, Height = 40, BackColor = Color.LightCoral, ForeColor = Color.White, Font = new Font("Arial", 12.0f))
 
-
     btnLogin.Click.Add(fun _ -> 
         let username = txtUsername.Text
         let password = txtPassword.Text
+        ResetText(txtUsername )
+        ResetText(txtPassword )
         if not (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password)) then
             match login username password with
-            | Some SuperUser ->
-
+            | Some SuperUser -> 
                 form.Hide()
-                superUserPanelForm ()
+                superUserPanelForm form
             | Some Instructor -> 
-
                 form.Hide()
-                instructorPanelForm ()
+                instructorPanelForm form
             | Some (Student studentID) -> 
-
                 form.Hide()
-                studentPanelForm studentID  
+                studentPanelForm form studentID  
             | _ -> 
                 MessageBox.Show("Invalid username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error) |> ignore
         else
@@ -76,9 +76,11 @@ let loginForm () =
 
     form.Controls.AddRange([| lblUsername; txtUsername; lblPassword; txtPassword; btnLogin |])
     form.ShowDialog() |> ignore
+
+
 //Main section
 [<STAThread>]
 do
     Application.EnableVisualStyles()
     Application.SetCompatibleTextRenderingDefault(false)
-    loginForm ()
+    loginForm ()  
