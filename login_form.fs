@@ -42,7 +42,8 @@ let ResetText (textbox: System.Windows.Forms.TextBox) =
 
 let loginForm () =
     let form = new Form(Text = "Login", Width = 400, Height = 250, StartPosition = FormStartPosition.CenterScreen, BackColor = Color.LightBlue)
-
+    form.FormBorderStyle <- FormBorderStyle.Sizable  
+    form.StartPosition <- FormStartPosition.CenterScreen
     let lblUsername = new Label(Text = "Username", Top = 50, Left = 10, ForeColor = Color.White)
     let txtUsername = new TextBox(Top = 50, Left = 120, Width = 200, BackColor = Color.White, ForeColor = Color.Black)
 
